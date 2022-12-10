@@ -6,6 +6,8 @@ pub mod algorithms;
 pub mod data_structures;
 use data_structures::*;
 
+use crate::attack::Attack;
+
 pub mod attack;
 
 fn main() {
@@ -18,14 +20,7 @@ fn main() {
 }
 
 pub fn attack<E: ark_ec::PairingEngine>(ck: &CommitmentKey<E>, dim: usize) -> attack::Attack<E> {
-    // your code here
-    use ark_std::Zero;
-    attack::Attack {
-        a: vec![],
-        commitment: Commitment(E::G1Affine::zero()),
-        claimed_inner_product: E::Fr::zero(),
-        proof: Proof(E::G1Affine::zero()),
-    }
+    Attack::attack(ck, dim)
 }
 
 const SRS: &'static [u8] = include_bytes!("../ck.srs");

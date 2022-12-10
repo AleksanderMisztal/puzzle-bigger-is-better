@@ -1,4 +1,6 @@
-use ark_ec::PairingEngine;
+use ark_ec::{msm::VariableBaseMSM, PairingEngine};
+use ark_ff::PrimeField;
+use ark_poly::{univariate::DensePolynomial, UVPolynomial};
 use ark_serialize::CanonicalSerialize;
 use ark_std::{rand::SeedableRng, UniformRand, Zero};
 use blake2::Digest;
@@ -21,6 +23,57 @@ pub struct Attack<E: PairingEngine> {
 }
 
 impl<E: PairingEngine> Attack<E> {
+    pub fn attack(ck: &CommitmentKey<E>, dim: usize) -> Self {
+        let mut rng = ark_std::test_rng();
+        let a = vec![E::Fr::rand(&mut rng); dim];
+        let commitment = ILV::commit(&ck, &a);
+        let b = hash(commitment, dim);
+        let claimed_inner_product = E::Fr::rand(&mut rng);
+        let proof = Self::fake_open(&ck, &a, &b, claimed_inner_product);
+        Self {
+            a,
+            commitment,
+            claimed_inner_product,
+            proof,
+        }
+    }
+
+    fn fake_open(
+        ck: &CommitmentKey<E>,
+        a: &[E::Fr],
+        b: &[E::Fr],
+        claimed_inner_product: E::Fr,
+    ) -> Proof<E> {
+        let mut a_coeffs = Vec::with_capacity(a.len() + 1);
+        a_coeffs.push(E::Fr::zero());
+        a_coeffs.extend_from_slice(a);
+        let a_poly = DensePolynomial::from_coefficients_vec(a_coeffs);
+
+        let mut b_rev = b.to_vec();
+        b_rev.push(E::Fr::zero());
+        b_rev.reverse();
+        let b_poly = DensePolynomial::from_coefficients_vec(b_rev);
+
+        let mut product = &a_poly * &b_poly;
+
+        product.coeffs[a.len() + 1] -= claimed_inner_product;
+
+        let product_coeffs = product
+            .coeffs
+            .iter()
+            .map(|x| x.into_repr())
+            .collect::<Vec<_>>();
+
+        let powers_of_beta_g = [
+            ck.powers_of_beta_g_first.clone(),
+            ck.powers_of_beta_g_second.clone(),
+        ]
+        .concat();
+
+        let proof = VariableBaseMSM::multi_scalar_mul(&powers_of_beta_g, &product_coeffs);
+        Proof(proof.into())
+    }
+
     pub fn assert_attack_works(&self, ck: &CommitmentKey<E>, dim: usize) {
         assert_eq!(self.a.len(), dim);
         assert_eq!(self.commitment, ILV::commit(&ck, &self.a));
