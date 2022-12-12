@@ -182,9 +182,9 @@ We use bracket notation to denote group elements. Namely, for an element $g_1^{a
 \subsubsection*{High level overview of the algorithm.}
 The commitment key of the (broken) argument equals $\ck = \smallset{\gone{1, \tau, \ldots, \tau^{2 dim - 1}},  \gtwo{1, \ldots, \tau^{dim}}}$. 
 \begin{description}
-    \item[$\com (\ck, \vec{v})$:] To commit to a vector $\vec{v} = (v_0, \ldots, v_{dim - 1})$ of length $dim$. We define polynomial $a(X) = v_0 X+ v_1 X^2 + \ldots + v_{dim - 1}$. The committer computes and outputs the KZG commitment to $a(X)$, i.e.~$a(\tau)$.
+    \item[$\com (\ck, \vec{v})$:] To commit to a vector $\vec{v} = (v_0, \ldots, v_{dim - 1})$ of length $dim$. We define polynomial $a(X) = v_0 X+ v_1 X^2 + \ldots + v_{dim - 1} X^{dim}$. The committer computes and outputs the KZG commitment to $a(X)$, i.e.~$a(\tau)$.
     %
-    \item[$\open (\ck, \gone{a (tau)}, \vec{w})$:] We will denote by $\tilde{\vec{w}} = (\tilde{w}_0, \ldots, \tilde{w}_{dim - 1})$ a vector of length $dim$ such that $\tilde{w}_i = w_{dim - 1 - i}$, i.e.~$\tilde{\vec{w}}$ is $\vec{w}$ read from right to left. Given the public vector $\vec{w}$, the committer computes: 
+    \item[$\open (\ck, \gone{a (\tau)}, \vec{w})$:] We will denote by $\tilde{\vec{w}} = (\tilde{w}_0, \ldots, \tilde{w}_{dim - 1})$ a vector of length $dim$ such that $\tilde{w}_i = w_{dim - 1 - i}$, i.e.~$\tilde{\vec{w}}$ is $\vec{w}$ read from right to left. Given the public vector $\vec{w}$, the committer computes: 
     \begin{itemize}
         \item polynomial $b(X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{dim})$,
         \item polynomial $c (X) = a (X) \cdot b(X)$. We note that polynomial's $c (X)$ coefficient to $X^{dim + 1}$ equals $v_0 w_0 + \ldots + v_{dim - 1} w_{dim - 1}$, i.e.~the inner product of $\vec{v}$ and $\vec{w}$. We denote the inner product by $ip$. We define a polynomial $d(X) = c(X) - ip \cdot X^{dim + 1}$.
