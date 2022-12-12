@@ -1,0 +1,302 @@
+\newcommand{\newdefs}[1] {\setlength{\fboxsep}{1pt}\colorbox{gray!20}{\(#1\)}}
+
+\newcommand{\COMMENT}[1]  {}
+
+%general formatting
+\newcommand{\pcvarstyle}[1]{\mathsf{#1}}
+\renewcommand{\comment}[1]{{\color{lightgray}#1}}
+\newcommand{\continue}{{\Huge{\hl{$\cdots$}}}}
+% \renewcommand{\case}[1]{\medskip\noindent{\fbox{Case #1:}}}
+% \newcommand{\ncase}[1]{\medskip\noindent{\fbox{#1:}}}
+% \newcommand{\ngame}[1]{\medskip\noindent{\fbox{Game $\game{#1}$:}}}
+\newcommand{\mhyph}{\text{-}}
+\renewcommand{\case}[1]{\medskip\noindent{\textbf{Case #1:}}}
+\newcommand{\ncase}[1]{\medskip\noindent{\textbf{#1:}}}
+\newcommand{\ngame}[1]{\medskip\noindent{\textbf{Game $\game{#1}$:}}}
+\newcommand{\conclude}{\medskip\noindent{}}
+\newcommand{\myskip}{-0.16\baselineskip}
+
+% General mathematics
+\newcommand{\range}[2] {[#1 \, .. \, #2]}
+\newcommand{\SD}{\Delta}
+\newcommand{\smallset}[1] {\{#1\}}
+\newcommand{\bigset}[1] {\left\{#1\right\}}
+\newcommand{\GRP} {\mathbb{G}}
+\newcommand{\HRP} {\mathbb{H}}
+\newcommand{\pair} {\hat{e}}
+\newcommand{\brak}[1] {\left(#1\right)}
+\newcommand{\sbrak}[1] {(#1)}
+\newcommand{\alg}[1] {\pcalgostyle{#1}}
+\newcommand{\image} {\operatorname{im}}
+\newcommand{\myland} {\,\land\,}
+\newcommand{\mylor} {\,\lor\,}
+\newcommand{\vect}[1] {\operatorname{vect}(#1)}
+\newcommand{\w}{\omega}
+\newcommand{\const}{\pcpolynomialstyle{const}}
+\newcommand{\p}[1]{\pcpolynomialstyle{#1}}
+\newcommand{\ptx}{\p{t_{X^0}}}
+\newcommand{\ptxsim}{\p{\tilde{t}_{X^0}}}
+\newcommand{\ev}[1]{\widetilde{\pcpolynomialstyle{#1}}}
+\newcommand{\maxconst}{\pcvarstyle{max}}
+\newcommand{\numberofconstrains}{\pcvarstyle{n}}
+\newcommand{\noofc}{\numberofconstrains}
+\newcommand{\noofw}{\pcvarstyle{m}}
+\newcommand{\dconst}{\pcvarstyle{d}}
+\newcommand{\multconstr}{\pcvarstyle{n}}
+\newcommand{\linconstr}{\pcvarstyle{Q}}
+\newcommand{\expected}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\infrac}[2]{#1 / #2}
+\newcommand{\eps}{\varepsilon}
+\DeclareMathOperator{\SPAN}{Span}
+\newcommand{\maxdeg}{\pcvarstyle{max}}
+%polynomials
+\newcommand{\pf}{\p{f}}
+\newcommand{\pF}{\p{F}}
+\newcommand{\pa}{\p{a}}
+\newcommand{\pb}{\p{b}}
+\newcommand{\pc}{\p{c}}
+\newcommand{\pz}{\p{z}}
+\newcommand{\pt}{\p{t}}
+\newcommand{\pR}{\p{R}}
+\newcommand{\pr}{\p{r}}
+\newcommand{\ptlo}{\p{t_{lo}}}
+\newcommand{\ptmid}{\p{t_{mid}}}
+\newcommand{\pthi}{\p{t_{hi}}}
+\newcommand{\pS}{\p{S}}
+\newcommand{\pT}{\p{T}}
+\newcommand{\pta}{\tilde{\p{a}}}
+\newcommand{\ptb}{\tilde{\p{b}}}
+\newcommand{\ptc}{\tilde{\p{c}}}
+\newcommand{\ptz}{\tilde{\p{z}}}
+\newcommand{\ptZH}{\tilde{\p{Z_H}}}
+\newcommand{\vX}{\vec{X}}
+\newcommand{\vB}{\vec{B}}
+\newcommand{\va}{\vec{a}}
+\newcommand{\vb}{\vec{b}}
+\newcommand{\vc}{\vec{c}}
+\newcommand{\tzkproof}{\pi}
+
+%reduction
+\newcommand{\tb}{\tilde{b}} 
+\newcommand{\tw}{\tilde{w}} 
+
+% bilinear maps
+
+\newcommand{\bmap}[2] {\left[#1\right]_{#2}}
+\newcommand{\gone}[1] {\bmap{#1}{1}}
+\newcommand{\gtwo}[1] {\bmap{#1}{2}}
+\newcommand{\gi} {\iota}
+\newcommand{\gtar}[1] {\bmap{#1}{T}}
+\newcommand{\grpgi}[1] {\bmap{#1}{\gi}}
+\newcommand{\gnone}[1]{\left[#1\right]}
+
+\newcommand{\msg}[1]{\mathtt{#1}}
+
+% zero knowledge
+\newcommand{\oracleo}{\mathsf{O}}
+\newcommand{\oraclesrs}{\oracleo_{srs}}
+\newcommand{\oraclec}{\oracleo_\cdv}
+% for srs updatability
+\newcommand{\intent}{\msg{intent}}
+\newcommand{\update}{\msg{update}}
+\newcommand{\setup}{\msg{setup}}
+\newcommand{\final}{\msg{final}}
+\newcommand{\verifysrs}{\verify_{srs}}
+\newcommand{\srsupdate}{\pcalgostyle{Update}}
+\newcommand{\crs}{\pcvarstyle{crs}}
+\newcommand{\srs}{\pcvarstyle{srs}}
+\newcommand{\td}{\pcvarstyle{td}}
+\newcommand{\ip}[2]{\left\langle #1, #2\right\rangle}
+\newcommand{\zkproof}{\pi}
+\newcommand{\proofsystem}{\pcschemestyle{\Psi}}
+\newcommand{\ps}{\proofsystem}
+\newcommand{\psfs}{\proofsystem_\fs}
+% \newcommand{\ps}{\proofsystem}
+\newcommand{\nuppt}{\pcmachinemodelstyle{NUPPT}}
+\newcommand{\ro}{\mathcal{H}}
+\newcommand{\rof}[2]{\mathbf{\Omega}_{#1, #2}}
+\newcommand{\trans}{\pcvarstyle{trans}}
+\newcommand{\tr}{\pcvarstyle{tr}}
+\newcommand{\instsize}{\pcvarstyle{n}}
+\newcommand{\KG} {\mathsf{K}}
+\newcommand{\kcrs} {\KG_{\crs}}
+\newcommand{\dist}{\ddv}
+\newcommand{\fs}{\pcalgostyle{FS}}
+\newcommand{\sigmaprot}{\pcalgostyle{\Sigma}}
+\newcommand{\se}{\pcvarstyle{se}}
+\newcommand{\snd}{\pcvarstyle{snd}}
+\newcommand{\zk}{\pcvarstyle{zk}}
+
+
+%rewinding---tree of transcripts
+\newcommand{\pcboolstyle}[1]{\mathtt{#1}}
+\newcommand{\treebuild}{\pcalgostyle{TreeBuild}}
+\newcommand{\tree}{\pcvarstyle{T}}
+\newcommand{\counter}{\pcvarstyle{counter}}
+
+
+%PLONK related
+\newcommand{\pcschemestyle}[1]{\mathsf{#1}}
+\newcommand{\plonkprot}{\pcschemestyle{P}}
+\newcommand{\plonkprotfs}{\pcschemestyle{P}_\fs}
+\newcommand{\sonicprot}{\pcschemestyle{S}}
+\newcommand{\sonicprotfs}{\pcschemestyle{S}_\fs}
+\newcommand{\marlinprot}{\pcschemestyle{M}}
+\newcommand{\marlinprotfs}{\pcschemestyle{M}_\fs}
+\newcommand{\selector}[1]{\pcvarstyle{q_{#1}}}
+\newcommand{\selmulti}{\selector{M}}
+\newcommand{\selleft}{\selector{L}}
+\newcommand{\selright}{\selector{R}}
+\newcommand{\seloutput}{\selector{O}}
+\newcommand{\selconst}{\selector{C}}
+\newcommand{\chz}{\mathfrak{z}}
+\newcommand{\ochz}{{\omega \mathfrak{z}}}
+\newcommand{\reduction}{\rdv}
+\newcommand{\tdv}{\pcadvstyle{T}}
+\newcommand{\ch}{\pcvarstyle{ch}}
+
+\newcommand{\game}[1]{\pcalgostyle{G}_{#1}}
+
+\newcommand{\lag}{\p{L}}
+\newcommand{\pubinppoly}{\p{PI}}
+
+\newcommand{\ZERO}{\p{Z}}
+%\newcommand{\pcsetstyle}[1]{\mathrm{#1}}
+\newcommand{\HHH}{\mathsf{H}}
+\newcommand{\KKK}{\mathsf{K}}
+
+% general complexity theory
+% \newcommand{\RND}[1]{\pcalgostyle{RND}(#1)}
+\newcommand{\RND}[1]{\pcvarstyle{R}(#1)}
+\newcommand{\RELGEN}{\mathcal{R}}
+\newcommand{\REL}{\mathbf{R}}
+\newcommand{\LANG}{\mathcal{L}}
+\newcommand{\inp}{\pcvarstyle{x}}
+\newcommand{\wit}{\pcvarstyle{w}}
+\newcommand{\class}[1]{\mathfrak{#1}}
+\newcommand{\ig}{\pcalgostyle{IG}}
+\newcommand{\accProb}{\event{acc}}
+\newcommand{\waccProb}{\event{\widetilde{acc}}}
+\newcommand{\frkProb}{\event{frk}}
+\newcommand{\extProb}{\event{ext}}
+\newcommand{\ssndProb}{\event{ssnd}}
+\newcommand{\FS}{\pcalgostyle{FS}} % Fiat-Shamir transform
+\newcommand{\aux}{\pcvarstyle{aux}} %auxiliary input
+% \newcommand{\dlog}{\pcvarstyle{dlog}}
+\newcommand{\vereq}{\p{ve}}
+
+%Commitment schemes
+\newcommand{\COM}{\pcschemestyle{C}}
+\newcommand{\PCOM}{\pcschemestyle{PC}}
+\newcommand{\PCOMp}{\pcschemestyle{PC}_{\plonkprot}}
+\newcommand{\PCOMs}{\pcschemestyle{PC}_{\sonicprot}}
+\newcommand{\com}{\pcalgostyle{Com}}
+\newcommand{\op}{\pcalgostyle{Op}}
+\newcommand{\open}{\op}
+
+\newcommand{\committer}{\pcalgostyle{C}}
+\newcommand{\receiver}{\pcalgostyle{R}}
+
+%Plonk and Sonic
+\newcommand{\ur}[1]{{#1\text{-}\mathsf{ur}}}
+
+\newcommand{\plonk}{\ensuremath{\textnormal{\textsf{Plonk}}}}
+\newcommand{\marlin}{{\ensuremath{\textnormal{\textsf{Marlin}}}}}
+\newcommand{\sonic}{{\ensuremath{\textnormal{\textsf{Sonic}}}}}
+\newcommand{\groth}{\ensuremath{\textsc{Groth16}}}
+\newcommand{\plonkmod}{\ensuremath{\plonk^\star}}
+\newcommand{\plonkint}{\ensuremath{\plonk^\star}}
+\newcommand{\polyprot}{\pcalgostyle{poly}}
+\newcommand{\plonkintpoly}{\plonkint_\polyprot}
+% \newcommand{\sonic}{\textsc{Sonic}}
+\newcommand{\maxdegree}{\pcvarstyle{N}}
+
+\newcommand{\dlog}{\pcvarstyle{dlog}}
+\newcommand{\ldlog}{\pcvarstyle{ldlog}}
+
+
+%reductions
+\newcommand{\extss}{\ext_\ss}
+\newcommand{\extse}{\ext_\se}
+\newcommand{\extt}{\ext_{\pcvarstyle{tree}}}
+\newcommand{\compass}{\mathtt{C}}
+\newcommand{\ks}{\pcvarstyle{ks}}
+\renewcommand{\ss}{\pcvarstyle{ss}}
+\newcommand{\rdvks}{{\rdv_\ks}}
+\newcommand{\rdvs}{{\rdv_\pcvarstyle{s}}}
+\newcommand{\rdvdlog}{{\rdv_\dlog}}
+\newcommand{\rdvldlog}{{\rdv_\ldlog}}
+\newcommand{\rdvse}{{\rdv_\se}}
+\newcommand{\rdvss}{{\rdv_\ss}}
+\newcommand{\rdvur}{\rdv_\pcvarstyle{ur}}
+
+\newcommand{\env}{\pcadvstyle{E}}
+\newcommand{\zdv}{\pcadvstyle{Z}}
+
+\newcommand{\advse}{\adv}
+\newcommand{\advss}{{\adv_\ss}}
+
+\newcommand{\epsss}{\eps_\pcvarstyle{f}}
+\newcommand{\epsur}{\eps_\pcvarstyle{ur}}
+\newcommand{\epsh}{\eps_{\pcvarstyle{hid}}}
+\newcommand{\epsk}{\eps_{\pcvarstyle{k}}}
+\newcommand{\epsbind}{\eps_\pcvarstyle{bind}}
+\newcommand{\epsbinding}{\eps_\pcvarstyle{bind}}
+\newcommand{\epsid}{\eps_{\pcvarstyle{id}}}
+\newcommand{\epsop}{\eps_\pcvarstyle{op}}
+\newcommand{\epss}{\eps_\pcvarstyle{s}}
+\newcommand{\epsfor}{\eps_\pcvarstyle{f}}
+\newcommand{\epsbatch}{\eps_\pcvarstyle{btch}}
+\newcommand{\epsdlog}{\eps_\dlog}
+\newcommand{\epsldlog}{\eps_\ldlog}
+\newcommand{\epsuber}{\eps_{\pcvarstyle{uber}}}
+\newcommand{\epszk}{\eps_{\pcvarstyle{zk}}}
+\newcommand{\epsro}{\eps_{\ro}}
+
+%selection polynomials
+\newcommand{\vql}{\vec{q_{L}}}
+\newcommand{\vqr}{\vec{q_{R}}}
+\newcommand{\vqm}{\vec{q_{M}}}
+\newcommand{\vqo}{\vec{q_{O}}}
+\newcommand{\vx}{\vec{x}}
+\newcommand{\vqc}{\vec{q_{C}}}
+
+%errors
+\newcommand{\err}{Err}
+\newcommand{\errur}{\err_{ur}}
+\newcommand{\errss}{\err_\ss}
+\newcommand{\errfrk}{\err_\frkProb}
+
+
+%forking
+\newcommand{\forking}{\pcalgostyle{F}}
+\newcommand{\genforking}{\pcalgostyle{GF}}
+
+%moving proofs and instances
+\newcommand{\MoveInstanceForward}{\pcalgostyle{MoveInstanceForward}}
+\newcommand{\MoveInstanceBackward}{\pcalgostyle{MoveInstanceBackward}}
+\newcommand{\MoveProofForward}{\pcalgostyle{MoveProofForward}}
+\newcommand{\MoveProofBackward}{\pcalgostyle{MoveProofBackward}}
+
+%colors
+\definecolor{darkmagenta}{rgb}{0.5,0,0.5}
+\definecolor{lightmagenta}{rgb}{1,0.85,1}
+\definecolor{lightmagenta}{rgb}{0.9,0.9,0.9}
+\definecolor{darkred}{rgb}{0.7,0,0}
+\definecolor{blueish}{rgb}{0.1,0.1,0.5}
+\definecolor{pinkish}{rgb}{0.9,0.8,0.8}
+\definecolor{darkgreen}{rgb}{0,0.6,0}
+\definecolor{lightgreen}{rgb}{0.85,1,0.85}
+\definecolor{skyblue}{rgb}{0.3,0.9,0.99}
+
+%\newcommand{\pcschemestyle}[1]{\mathbf{#1}}
+
+%comments
+\DeclareRobustCommand{\markulf}[2]  {{\color{darkmagenta}\hl{\scriptsize\textsf{Markulf #1:} #2}}}
+\DeclareRobustCommand{\michals}[2]  {{\color{blueish}{\scriptsize\textsf{Michal #1:}} #2}}
+\newcommand{\chaya}[1]{\textcolor{magenta}{[{\footnotesize {\bf Chaya:} { {#1}}}]}}
+\newcommand{\hamid}[1]{\textcolor{blue}{[{\footnotesize {\bf Hamid:} { {#1}}}]}}
+\newcommand{\task}[2]{\todo[author=\textbf{Task},inline]{({\textit{#1}}) #2}}
+% \newcommand{\task}[2] {\xcommenti{Task}{#1}{#2}}
+% \DeclareRobustCommand{\task}[2]  {{\color{black}\sethlcolor{yellow}\hl{\textsf{TASK #1:} #2}}}
+\DeclareRobustCommand{\changedm}[1] {{\color{violet} #1}}

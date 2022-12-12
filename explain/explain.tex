@@ -1,0 +1,225 @@
+% !TeX spellcheck = en_GB
+
+\documentclass[runningheads,11pt,a4paper]{llncs}
+\pagestyle{plain}
+%\let\spvec\vec
+\let\vec\accentvec
+
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{<-> mathx10}{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareMathAccent{\widebar}{0}{mathx}{"73}
+
+%\let\spvec\vec
+\usepackage{amssymb,amsmath}
+\let\vec\spvec
+%\usepackage{newtxmath,newtxtext}
+\usepackage{newtxtext}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[most]{tcolorbox}
+
+\def\vec#1{\mathchoice{\mbox{\boldmath$\displaystyle#1$}}
+  {\mbox{\boldmath$\textstyle#1$}} {\mbox{\boldmath$\scriptstyle#1$}}
+  {\mbox{\boldmath$\scriptscriptstyle#1$}}}
+\usepackage[a4paper,centering]{geometry}
+\usepackage{soul}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+\usepackage{hyperref} % [backref]
+
+\include{macros}
+
+\hypersetup{final}
+\usepackage[advantage,asymptotics,adversary,sets,keys,ff,lambda,primitives,events,operators,probability,logic,mm,complexity,landau]{cryptocode}
+\usepackage[normalem]{ulem}
+
+\usepackage[capitalise]{cleveref}
+\COMMENT{
+\usepackage{refcheck}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% https://tex.stackexchange.com/questions/87610/making-refcheck-work-with-cleveref
+%%% Macros to make cleveref and refcheck to work together:
+\makeatletter
+\newcommand{\refcheckize}[1]{%
+	\expandafter\let\csname @@\string#1\endcsname#1%
+	\expandafter\DeclareRobustCommand\csname relax\string#1\endcsname[1]{%
+		\csname @@\string#1\endcsname{##1}\@for\@temp:=##1\do{\wrtusdrf{\@temp}\wrtusdrf{{\@temp}}}}%
+	\expandafter\let\expandafter#1\csname relax\string#1\endcsname
+}
+\newcommand{\refcheckizetwo}[1]{%
+	\expandafter\let\csname @@\string#1\endcsname#1%
+	\expandafter\DeclareRobustCommand\csname relax\string#1\endcsname[2]{%
+		\csname @@\string#1\endcsname{##1}{##2}\wrtusdrf{##1}\wrtusdrf{{##1}}\wrtusdrf{##2}\wrtusdrf{{##2}}}%
+	\expandafter\let\expandafter#1\csname relax\string#1\endcsname
+\makeatother
+}
+
+\refcheckize{\cref}
+\refcheckize{\Cref}
+\refcheckizetwo{\crefrange}
+\refcheckizetwo{\Crefrange}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{datetime}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{paralist}	
+\usepackage[mathscr]{euscript}
+\usepackage{wrapfig}
+\usepackage[color=green!20]{todonotes}
+\usepackage{bbm}
+\usepackage{boxedminipage}
+\usepackage{multicol}
+\usepackage{mdframed}
+\usepackage{multirow}
+%\usepackage{tabu}
+\usepackage{dashbox}
+\usepackage{adjustbox}
+\usepackage[most]{tcolorbox}
+
+%\usepackage{pgfplots}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,patterns,circuits.logic.US}
+
+%\newcommand{\newdefsd}[1] {\setlength{\fboxsep}{0.9pt}\colorbox{gray!12}{\(\displaystyle #1\)}}
+\newcommand{\newdefst}[1] {{\setlength{\fboxsep}{0.9pt}\colorbox{gray!12}{#1}}}
+
+\definecolor{lightgreen}{rgb}{0.85,1,0.85}
+\definecolor{lightyellow}{rgb}{1,1,0.85}
+\definecolor{darkgreen}{rgb}{0,0.45,0}
+\definecolor{darkred}{rgb}{0.6,0,0}
+\definecolor{darkbrown}{rgb}{0.50, 0.36, 0.23}
+\definecolor{darkmagenta}{rgb}{0.5,0,0.5}
+\definecolor{darkblue}{rgb}{0,0,0.74}
+\definecolor{lightred}{rgb}{1,0.9,0.9}
+%\definecolor{brinkpink}{rgb}{0.55, 0.25, 0.3}
+\definecolor{goodc}{rgb}{0.5,0.5,0.3}
+
+\definecolor{macrocolor}{rgb}{0,0,0}
+
+%FOR SUBMISSION
+%\newcommand{\changedj}[1] {{\color{black}#1}}
+%\newcommand{\changedh}[1] {{\color{black}#1}}
+%\newcommand{\changedm}[1] {{\color{black}#1}}
+
+\newtcbox{\dottedbox}[1][]{
+	math upper,
+	baseline=0.23\baselineskip,
+	%	equal height group=dashedbox,
+	nobeforeafter,
+	colback=white,
+	boxrule=0pt,
+	enhanced jigsaw,
+	boxsep=0pt,
+	top=1pt,
+	bottom=1pt,
+	left=1pt,
+	right=1pt,
+	borderline horizontal={0.5pt}{0pt}{dotted},
+	borderline vertical={0.5pt}{0pt}{dotted},
+	%	drop lifted shadow,
+	#1
+}
+
+\newtheorem{fact}{Fact}
+
+\newcommand{\ccb} {\cellcolor{lightyellow}}
+\newcommand{\ccc} {\cellcolor{lightred}}
+\newcommand{\ccd} {\cellcolor{lightblue}}
+
+\DeclareRobustCommand{\aleks}[2]  {{\color{darkred}\sethlcolor{lightgreen}\hl{\textsf{Aleks #1:} #2}}}
+
+\DeclareRobustCommand{\michals}[2]  {{\color{darkgreen}\sethlcolor{lightyellow}\hl{\textsf{Michal #1:} #2}}}
+
+\usepackage[T1]{fontenc}
+
+\newcommand{\oursubsub}[1] {\subsubsection{#1}}
+\newcommand{\ourpar}[1] {\paragraph{#1}}
+
+% General mathematics
+
+\newcommand{\SENDMSGRIGHT}[1]  {\sendmessageright{width=11cm,centercol=4,top=#1,style={black,thick}}}
+\newcommand{\SENDMSGLEFT}[1]  {\sendmessageleft{width=11cm,centercol=4,top=#1,style={black,thick}}}
+
+\newcommand{\mathpint}[1] {{\pgfmathparse{int(#1)}\pgfmathresult}}
+
+\usepackage{booktabs}
+\newcommand{\insubmitted}[1] {}
+\newcommand{\infinal}[1] {#1}
+
+\usepackage{comment}
+
+%%%%%%%%%%%%%%%%%%%%%
+
+\title{ZkHack. On the importance of denting the SRS}
+
+\infinal{%
+\author{Nethermind Research}
+\institute{}
+%\\ 	\email{firstname.lastname@gmail.com}}
+}
+
+\allowdisplaybreaks
+
+\begin{document}
+\sloppy
+\maketitle
+
+\paragraph{Notation.}
+We use bracket notation to denote group elements. Namely, for an element $g_1^{a} \in \GRP_1$ we write $\gone{a}$. Similarly for elements of $\GRP_2, \GRP_T$. We use additive notation, that is we write $\gone{a} + \gone{b}$ to denote element $g_1^{a} \cdot g_1^{b}$. We use $\bullet$ to denote a bilinear pairing between elements $\gone{a}$ and $\gtwo{b}$,~i.e. we write $\gone{a} \bullet \gtwo{b} = \gtar{ab}$.
+
+% To argue about the insecurity of using non-gapped SRS for Count, we recall the $(q_1, q_2)\text{-}dlog$ security assumption.
+
+% \begin{definition}[$(q_1, q_2)\text{-}dlog$ assumption]
+%     Let $\adv$ be a PPT adversary with $\gone{1, \tau, \ldots, \tau^{q_1}}, \gtwo{1, \tau, \ldots, \tau^{q_2}}$ as input. Then the probability that $\adv$ outputs $\gone{\tau^{r_1}}, \gtwo{\tau^{r_2}}$, where $r_1 \not\in \range{0}{q_1}$, or $r_2 \not\in \range{0}{q_2}$ is negligible. 
+% \end{definition}
+
+\newcommand{\ck}{\pcalgostyle{ck}}
+
+\paragraph{High level overview of the algorithm.}
+The commitment key of the (broken) argument equals $\ck = \gone{1, \tau, \ldots, \tau^{2 gap - 1}}$
+\begin{description}
+    \item[$\com (\ck, \vec{v})$:] To commit to a vector $\vec{v} = (v_0, \ldots, v_{gap - 1})$ of length $gap$ the committer computes polynomial $a(X) = \vec{v}^\top \cdot (X, X^2, \ldots, X^{gap - 1}, X^{gap})$ and computes a polynomial commitment to $a$, i.e., $\gone{a (\tau)}$. Then it outputs $\gone{c} = \gone{a (\tau)}$.
+    \item[$\open (\ck, \gone{c}, \vec{w})$:] We will denote by $\tilde{\vec{w}} = (\tilde{w}_0, \ldots, \tilde{w}_{gap - 1})$ a vector of length $gap$ such that $\tilde{w}_i = w_{gap - 1 - i}$. Given the public vector $\vec{w}$, the committer computes: 
+    \begin{itemize}
+        \item $a' (X) = X \cdot a (X)$,
+        \item $b'(X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{gap})$,
+        \item $c (X) = a' (X) \cdot b'(X)$. We note that polynomial's $c (X)$ coefficient to $X^{gap + 1}$ equals $v_0 w_0 + \ldots + v_{gap - 1} w_{gap - 1}$, i.e.~the inner product of $\vec{v}$ and $\vec{w}$. We denote the inner product by $ip$.
+        \item $\gone{op} \gets \gone{c(\tau) - ip \cdot \tau^{gap}}$.
+    \end{itemize}
+    
+    \item[$\verify (\ck, \gone{c}, \gone{op}, ip, \vec{w})$:] The verifier computes $b (X) = \tilde{\vec{w}}^\top \cdot (1, X, X^2, \ldots, X^{gap - 1})$ and accepts if $\gone{c} \bullet \gtwo{b(\tau)} = ip \gone{\tau^{gap - 1}} \bullet \gtwo{\tau} + \gone{op} \bullet \gtwo{1}$.
+\end{description}
+
+\COMMENT{
+\paragraph{How ILV inner-product commitment works.}
+Let $\srs = \smallset{\gone{1, \tau, \ldots, \tau^{gap - 1}, \tau^{gap + 1}, \ldots, \tau^{d_1}}, \gtwo{1, \tau, \ldots, \tau^{d_2}}}$. By the security assumption, 
+
+In Count, the prover commits to a polynomial $f_{ipc} (X)$ which coefficient next to $X^{gap}$ is $0$. 
+
+\paragraph{When Count is insecure?}
+We start with explaining the connection between the original inner-product commitment from ILV and Count. More precisely, we express the ILV commitment scheme using polynomial commitments as in Count.
+
+First of all, Instead of group generators $\smallset{g, g_1, \ldots, g_{gap - 1}, g_{gap + 1}, g_{2 gap - 1}}$ we have group representations of powers of tau, namely $\smallset{\gone{1, \tau, \ldots, \tau^{gap - 1}, \tau^{gap + 1}, \ldots, \tau^{2 gap - 1}}}$. 
+
+ Commitment to a vector $\vec{v} = (v_0, \ldots, v_{gap - 1})$ is a KZG commitment to a polynomial that $f(X)$ that has $v_i$ as a coefficient of $X^i$. That is, $cm = \gone{f (\tau)}$.  Denote by $\vec{w} = (w_0, \ldots, w_{gap - 1})$ is a public vector. Let $ip$ be an inner product of $\vec{w}$ and $\vec{v}$. The proof of correctness of $ip$ is also a commitment to a polynomial. Define $g (X) = w_0 + w_1 X + \ldots w_{gap -1} X^{gap - 1}$ and set $op = \gone{f' (\tau)}$. 
+
+We now look at the polynomial $f' (X)$ and see that 
+\[
+f' (X) = f (X) \cdot X^{gap} - ip =  v_0 X^{gap} - ip X^{gap} + v_1 X^{gap + 1} + \ldots + v_{gap - 1} X^{2 gap - 1}
+\]
+
+To understand security implications of using an SRS without a gap in the ILV commitment scheme we will use the following observation. If the prover is honest (and the inner product has been computed correctly), then the coefficient of $X^{gap}$ element in polynomial $f'(X)$
+}
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
