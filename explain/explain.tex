@@ -171,52 +171,33 @@
 \sloppy
 \maketitle
 
-\paragraph{Notation.}
+\subsubsection*{Notation.}
 We use bracket notation to denote group elements. Namely, for an element $g_1^{a} \in \GRP_1$ we write $\gone{a}$. Similarly for elements of $\GRP_2, \GRP_T$. We use additive notation, that is we write $\gone{a} + \gone{b}$ to denote element $g_1^{a} \cdot g_1^{b}$. We use $\bullet$ to denote a bilinear pairing between elements $\gone{a}$ and $\gtwo{b}$,~i.e. we write $\gone{a} \bullet \gtwo{b} = \gtar{ab}$.
-
-% To argue about the insecurity of using non-gapped SRS for Count, we recall the $(q_1, q_2)\text{-}dlog$ security assumption.
-
-% \begin{definition}[$(q_1, q_2)\text{-}dlog$ assumption]
-%     Let $\adv$ be a PPT adversary with $\gone{1, \tau, \ldots, \tau^{q_1}}, \gtwo{1, \tau, \ldots, \tau^{q_2}}$ as input. Then the probability that $\adv$ outputs $\gone{\tau^{r_1}}, \gtwo{\tau^{r_2}}$, where $r_1 \not\in \range{0}{q_1}$, or $r_2 \not\in \range{0}{q_2}$ is negligible. 
-% \end{definition}
 
 \newcommand{\ck}{\pcalgostyle{ck}}
 
-\paragraph{High level overview of the algorithm.}
-The commitment key of the (broken) argument equals $\ck = \gone{1, \tau, \ldots, \tau^{2 gap - 1}}$
+\subsubsection*{High level overview of the algorithm.}
+The commitment key of the (broken) argument equals $\ck = \smallset{\gone{1, \tau, \ldots, \tau^{2 gap - 1}},  \gtwo{1, \ldots, \tau^{gap}}}$. 
 \begin{description}
-    \item[$\com (\ck, \vec{v})$:] To commit to a vector $\vec{v} = (v_0, \ldots, v_{gap - 1})$ of length $gap$ the committer computes polynomial $a(X) = \vec{v}^\top \cdot (X, X^2, \ldots, X^{gap - 1}, X^{gap})$ and computes a polynomial commitment to $a$, i.e., $\gone{a (\tau)}$. Then it outputs $\gone{c} = \gone{a (\tau)}$.
-    \item[$\open (\ck, \gone{c}, \vec{w})$:] We will denote by $\tilde{\vec{w}} = (\tilde{w}_0, \ldots, \tilde{w}_{gap - 1})$ a vector of length $gap$ such that $\tilde{w}_i = w_{gap - 1 - i}$. Given the public vector $\vec{w}$, the committer computes: 
+    \item[$\com (\ck, \vec{v})$:] To commit to a vector $\vec{v} = (v_0, \ldots, v_{gap - 1})$ of length $gap$ the committer computes and outputs $\gone{com} = \vec{v}^\top \cdot (\sigma, \sigma^2, \ldots, \sigma^{gap})$ and computes a polynomial commitment to $a$, i.e., $\gone{a (\tau)}$. 
+    %
+    \item[$\open (\ck, \gone{com}, \vec{w})$:] We will denote by $\tilde{\vec{w}} = (\tilde{w}_0, \ldots, \tilde{w}_{gap - 1})$ a vector of length $gap$ such that $\tilde{w}_i = w_{gap - 1 - i}$. Given the public vector $\vec{w}$, the committer computes: 
     \begin{itemize}
-        \item $a' (X) = X \cdot a (X)$,
+        \item $a' (X) = X \cdot a (X)$, where $a(X) = v_0 + v_1 X + \ldots v_{gap - 1} X^{gap - 1}$.
         \item $b'(X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{gap})$,
-        \item $c (X) = a' (X) \cdot b'(X)$. We note that polynomial's $c (X)$ coefficient to $X^{gap + 1}$ equals $v_0 w_0 + \ldots + v_{gap - 1} w_{gap - 1}$, i.e.~the inner product of $\vec{v}$ and $\vec{w}$. We denote the inner product by $ip$.
-        \item $\gone{op} \gets \gone{c(\tau) - ip \cdot \tau^{gap}}$.
+        \item $c (X) = a' (X) \cdot b'(X)$. We note that polynomial's $c (X)$ coefficient to $X^{gap + 1}$ equals $v_0 w_0 + \ldots + v_{gap - 1} w_{gap - 1}$, i.e.~the inner product of $\vec{v}$ and $\vec{w}$. We denote the inner product by $ip$. We define a polynomial $d(X) = c(X) - ip \cdot X^{gap + 1}$.
+        \item $\gone{op} \gets \gone{d(\tau)}$.
     \end{itemize}
-    
-    \item[$\verify (\ck, \gone{c}, \gone{op}, ip, \vec{w})$:] The verifier computes $b (X) = \tilde{\vec{w}}^\top \cdot (1, X, X^2, \ldots, X^{gap - 1})$ and accepts if $\gone{c} \bullet \gtwo{b(\tau)} = ip \gone{\tau^{gap - 1}} \bullet \gtwo{\tau} + \gone{op} \bullet \gtwo{1}$.
+    %
+    \item[$\verify (\ck, \gone{com}, \gone{op}, ip, \vec{w})$:] $ip$ is the claimed inner product of vectors $\vec{v}$ and $\vec{w}$. The verifier computes $b' (X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{gap})$ and accepts if $\gone{com} \bullet \gtwo{b'(\tau)} = ip \gone{\tau^{gap}} \bullet \gtwo{\tau} + \gone{op} \bullet \gtwo{1}$.
 \end{description}
 
-\COMMENT{
-\paragraph{How ILV inner-product commitment works.}
-Let $\srs = \smallset{\gone{1, \tau, \ldots, \tau^{gap - 1}, \tau^{gap + 1}, \ldots, \tau^{d_1}}, \gtwo{1, \tau, \ldots, \tau^{d_2}}}$. By the security assumption, 
+\subsubsection*{Why it doesn't work?}
+We show that a malicious prover can convince the verifier on a false $ip$. We note that polynomial $d(X)$, when computed correctly, has $0$ as a coefficient to $X^{gap + 1}$, and the argument opening is a KZG-polynomial commitment to $d(X)$. This observation was used to ensure ILV's security. 
 
-In Count, the prover commits to a polynomial $f_{ipc} (X)$ which coefficient next to $X^{gap}$ is $0$. 
+First, we observe that the verifier checks in the verification equation that $\gone{op}$ has been computed correctly. 
 
-\paragraph{When Count is insecure?}
-We start with explaining the connection between the original inner-product commitment from ILV and Count. More precisely, we express the ILV commitment scheme using polynomial commitments as in Count.
-
-First of all, Instead of group generators $\smallset{g, g_1, \ldots, g_{gap - 1}, g_{gap + 1}, g_{2 gap - 1}}$ we have group representations of powers of tau, namely $\smallset{\gone{1, \tau, \ldots, \tau^{gap - 1}, \tau^{gap + 1}, \ldots, \tau^{2 gap - 1}}}$. 
-
- Commitment to a vector $\vec{v} = (v_0, \ldots, v_{gap - 1})$ is a KZG commitment to a polynomial that $f(X)$ that has $v_i$ as a coefficient of $X^i$. That is, $cm = \gone{f (\tau)}$.  Denote by $\vec{w} = (w_0, \ldots, w_{gap - 1})$ is a public vector. Let $ip$ be an inner product of $\vec{w}$ and $\vec{v}$. The proof of correctness of $ip$ is also a commitment to a polynomial. Define $g (X) = w_0 + w_1 X + \ldots w_{gap -1} X^{gap - 1}$ and set $op = \gone{f' (\tau)}$. 
-
-We now look at the polynomial $f' (X)$ and see that 
-\[
-f' (X) = f (X) \cdot X^{gap} - ip =  v_0 X^{gap} - ip X^{gap} + v_1 X^{gap + 1} + \ldots + v_{gap - 1} X^{2 gap - 1}
-\]
-
-To understand security implications of using an SRS without a gap in the ILV commitment scheme we will use the following observation. If the prover is honest (and the inner product has been computed correctly), then the coefficient of $X^{gap}$ element in polynomial $f'(X)$
-}
+Then, we note use the following security assumption (which holds in the algebraic group model): If KZG polynomial commitment's key does not contain element $\gone{\tau^q}$, then no adversary $\adv$ can commit to a polynomial that has non-zero coefficient to $X^q$. More precisely, in the AGM, if $\adv$ outputs a commitment to a polynomial $f(X)$ that has non-zero coefficient to $X^q$, then $\adv$ can be used to break a (variant of) discrete logarithm assumption and reveal trapdoor $\tau$.
 
 \end{document}
 %%% Local Variables:
