@@ -182,29 +182,26 @@ We use bracket notation to denote group elements. Namely, for an element $g_1^{a
 \subsubsection*{High level overview of the algorithm.}
 The commitment key of the (broken) argument equals $\ck = \smallset{\gone{1, \tau, \ldots, \tau^{2 dim - 1}},  \gtwo{1, \ldots, \tau^{dim}}}$. 
 \begin{description}
-    \item[$\com (\ck, \vec{v})$:] To commit to a vector $\vec{v} = (v_0, \ldots, v_{dim - 1})$ of length $dim$ the committer computes and outputs $\gone{com} = \vec{v}^\top \cdot \gone{(\tau, \tau^2, \ldots, \tau^{dim})}$. 
+    \item[$\com (\ck, \vec{v})$:] To commit to a vector $\vec{v} = (v_0, \ldots, v_{dim - 1})$ of length $dim$. We define polynomial $a(X) = v_0 X+ v_1 X^2 + \ldots + v_{dim - 1}$. The committer computes and outputs the KZG commitment to $a(X)$, i.e.~$a(\tau)$.
     %
-    \item[$\open (\ck, \gone{com}, \vec{w})$:] We will denote by $\tilde{\vec{w}} = (\tilde{w}_0, \ldots, \tilde{w}_{dim - 1})$ a vector of length $dim$ such that $\tilde{w}_i = w_{dim - 1 - i}$, i.e.~$\tilde{\vec{w}}$ is $\vec{w}$ read from right to left. Given the public vector $\vec{w}$, the committer computes: 
+    \item[$\open (\ck, \gone{a (tau)}, \vec{w})$:] We will denote by $\tilde{\vec{w}} = (\tilde{w}_0, \ldots, \tilde{w}_{dim - 1})$ a vector of length $dim$ such that $\tilde{w}_i = w_{dim - 1 - i}$, i.e.~$\tilde{\vec{w}}$ is $\vec{w}$ read from right to left. Given the public vector $\vec{w}$, the committer computes: 
     \begin{itemize}
-        \item $a' (X) = X \cdot a (X)$, where $a(X) = v_0 + v_1 X + \ldots v_{dim - 1} X^{dim - 1}$. Note that $\gone{com}$ is a KZG polynomial commitment to $a'(X)$.
-        \item $b'(X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{dim})$,
-        \item $c (X) = a' (X) \cdot b'(X)$. We note that polynomial's $c (X)$ coefficient to $X^{dim + 1}$ equals $v_0 w_0 + \ldots + v_{dim - 1} w_{dim - 1}$, i.e.~the inner product of $\vec{v}$ and $\vec{w}$. We denote the inner product by $ip$. We define a polynomial $d(X) = c(X) - ip \cdot X^{dim + 1}$.
-        \item $\gone{op} \gets \gone{d(\tau)}$, i.e.~the opening $op$ is a KZG polynomial commitment to the polynomial $d(X)$.
+        \item polynomial $b(X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{dim})$,
+        \item polynomial $c (X) = a (X) \cdot b(X)$. We note that polynomial's $c (X)$ coefficient to $X^{dim + 1}$ equals $v_0 w_0 + \ldots + v_{dim - 1} w_{dim - 1}$, i.e.~the inner product of $\vec{v}$ and $\vec{w}$. We denote the inner product by $ip$. We define a polynomial $d(X) = c(X) - ip \cdot X^{dim + 1}$.
     \end{itemize}
+    Eventually, the committer outputs the KZG commitment to $d(X)$, i.e.~$d(\tau)$.
     %
-    \item[$\verify (\ck, \gone{com}, \gone{op}, ip, \vec{w})$:] $ip$ is the claimed inner product of vectors $\vec{v}$ and $\vec{w}$. The verifier computes $b' (X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{dim})$ and accepts if $\gone{com} \bullet \gtwo{b'(\tau)} = ip \cdot \gone{\tau^{dim}} \bullet \gtwo{\tau} + \gone{op} \bullet \gtwo{1}$.
+    \item[$\verify (\ck, \gone{a(\tau)}, \gone{d(\tau)}, ip, \vec{w})$:] $ip$ is the claimed inner product of vectors $\vec{v}$ and $\vec{w}$. The verifier computes $b (X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{dim})$ and accepts if $\gone{a (\tau)} \bullet \gtwo{b(\tau)} = ip \cdot \gone{\tau^{dim}} \bullet \gtwo{\tau} + \gone{d (\tau)} \bullet \gtwo{1}$.
 \end{description}
 
 \subsubsection*{Why it doesn't work?}
-We show that a malicious prover can convince the verifier on a false inner product value $ip'$. We note that polynomial $d(X)$, when computed correctly, has $0$ as a coefficient to $X^{dim + 1}$, and the argument opening $op$ is a KZG-polynomial commitment to $d(X)$. This observation was used to ensure ILV's security (as presented in the Vampire paper). 
+To build an intuition about the attack, we recall the following security assumption (which holds in the algebraic group model): If KZG polynomial commitment's key does not contain element $\gone{\tau^q}$, then no adversary $\adv$ can commit to a polynomial that has non-zero coefficient to $X^q$. More precisely, in the AGM, if $\adv$ outputs a commitment to a polynomial $f(X)$ that has a non-zero coefficient to $X^q$, then $\adv$ can be used to break a (variant of) discrete logarithm assumption and reveal the trapdoor $\tau$. 
 
-First, we observe that the verifier checks in the verification equation that $\gone{op}$ has been computed correctly. Really, correctly computed $\gone{op}$ is a commitment to a polynomial $a'(X) \cdot b'(X) - ip \cdot X^{dim + 1}$, and, as already noted, $\gone{com}$ is a commitment to $a'(X)$.
+We show that a malicious prover can convince the verifier on a false inner product value $ip'$. We note that polynomial $d(X)$, when computed correctly, has $0$ as a coefficient to $X^{dim + 1}$. This observation was used to ensure ILV's security (as presented in the Vampire paper). 
 
-Then we reacll use the following security assumption (which holds in the algebraic group model) to build an intuition about the attack: If KZG polynomial commitment's key does not contain element $\gone{\tau^q}$, then no adversary $\adv$ can commit to a polynomial that has non-zero coefficient to $X^q$. More precisely, in the AGM, if $\adv$ outputs a commitment to a polynomial $f(X)$ that has non-zero coefficient to $X^q$, then $\adv$ can be used to break a (variant of) discrete logarithm assumption and reveal the trapdoor $\tau$. 
+We observe that the verifier checks in the verification equation that $\gone{d(\tau)}$ has been computed correctly. Really, correctly computed $\gone{d (\tau)}$ is a commitment to a polynomial $a(X) \cdot b(X) - ip \cdot X^{dim + 1}$, that is $d(X)$.
 
-% We then observe, that if the inner product has been computed correctly, then a correctly computed $d(X)$ has zero coefficient to $X^{dim + 1}$.
-
-In the proposed scheme, there is no gap in the SRS, what allows a malicious prover to coin an attack. A malicious prover follows the protocol except it uses $ip'$ whenever an honest prover would use $ip$. More precisely, it computes $op \gets d(\tau) \gets c(\tau) - ip' \cdot \tau^{dim + 1}$. Since the verification equation checks $a'(\tau) \cdot b' (\tau) = ip' \cdot \tau^{dim + 1} + d(\tau)$, the verifier accepts the proof.
+In the proposed scheme, there is no gap in the SRS, what allows a malicious prover to coin an attack. A malicious prover follows the protocol, except it uses $ip'$ whenever an honest prover would use $ip$. More precisely, it computes $d(\tau) \gets c(\tau) - ip' \cdot \tau^{dim + 1}$. Since the verification equation checks $a(\tau) \cdot b (\tau) = ip' \cdot \tau^{dim + 1} + d(\tau)$, what is exactly the case, the verifier accepts the proof.
 \end{document}
 %%% Local Variables:
 %%% mode: latex
