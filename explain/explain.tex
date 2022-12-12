@@ -189,7 +189,7 @@ The commitment key of the (broken) argument equals $\ck = \smallset{\gone{1, \ta
         \item polynomial $b(X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{dim})$,
         \item polynomial $c (X) = a (X) \cdot b(X)$. We note that polynomial's $c (X)$ coefficient to $X^{dim + 1}$ equals $v_0 w_0 + \ldots + v_{dim - 1} w_{dim - 1}$, i.e.~the inner product of $\vec{v}$ and $\vec{w}$. We denote the inner product by $ip$. We define a polynomial $d(X) = c(X) - ip \cdot X^{dim + 1}$.
     \end{itemize}
-    Eventually, the committer outputs the KZG commitment to $d(X)$, i.e.~$d(\tau)$.
+    Eventually, the committer outputs the KZG commitment to $d(X)$, i.e.~$\gone{d(\tau)}$.
     %
     \item[$\verify (\ck, \gone{a(\tau)}, \gone{d(\tau)}, ip, \vec{w})$:] $ip$ is the claimed inner product of vectors $\vec{v}$ and $\vec{w}$. The verifier computes $b (X) = (0 || \tilde{\vec{w}})^\top \cdot (1, X, X^2, \ldots, X^{dim})$ and accepts if $\gone{a (\tau)} \bullet \gtwo{b(\tau)} = ip \cdot \gone{\tau^{dim}} \bullet \gtwo{\tau} + \gone{d (\tau)} \bullet \gtwo{1}$.
 \end{description}
